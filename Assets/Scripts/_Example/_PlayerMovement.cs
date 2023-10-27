@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BulletHell
 {
-    public class PlayerMovement : MonoBehaviour
+    public class _PlayerMovement : MonoBehaviour
     {
         public GameObject[] guns;
         public float speed;
