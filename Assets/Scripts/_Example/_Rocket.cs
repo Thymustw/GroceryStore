@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rocket : MonoBehaviour
+public class _Rocket : MonoBehaviour
 {
     public float lerp;
     public float speed = 15;
@@ -40,7 +40,7 @@ public class Rocket : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        GameObject exp = ObjectPool.Instance.GetObject(explosionPrefab);
+        GameObject exp = _ObjectPool.Instance.GetObject(explosionPrefab);
         exp.transform.position = transform.position;
 
         rigidbody.velocity = Vector2.zero;
@@ -50,6 +50,6 @@ public class Rocket : MonoBehaviour
     IEnumerator Push(GameObject _object, float time)
     {
         yield return new WaitForSeconds(time);
-        ObjectPool.Instance.PushObject(_object);
+        _ObjectPool.Instance.PushObject(_object);
     }
 }

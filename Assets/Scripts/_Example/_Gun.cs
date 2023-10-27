@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class _Gun : MonoBehaviour
 {
     public float interval;
     public GameObject bulletPrefab;
@@ -62,14 +62,14 @@ public class Gun : MonoBehaviour
         animator.SetTrigger("Shoot");
 
         // GameObject bullet = Instantiate(bulletPrefab, muzzlePos.position, Quaternion.identity);
-        GameObject bullet = ObjectPool.Instance.GetObject(bulletPrefab);
+        GameObject bullet = _ObjectPool.Instance.GetObject(bulletPrefab);
         bullet.transform.position = muzzlePos.position;
 
         float angel = Random.Range(-5f, 5f);
-        bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(angel, Vector3.forward) * direction);
+        bullet.GetComponent<_Bullet>().SetSpeed(Quaternion.AngleAxis(angel, Vector3.forward) * direction);
 
         // Instantiate(shellPrefab, shellPos.position, shellPos.rotation);
-        GameObject shell = ObjectPool.Instance.GetObject(shellPrefab);
+        GameObject shell = _ObjectPool.Instance.GetObject(shellPrefab);
         shell.transform.position = shellPos.position;
         shell.transform.rotation = shellPos.rotation;
     }

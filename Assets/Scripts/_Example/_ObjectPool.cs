@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool
+public class _ObjectPool
 {
-    private static ObjectPool instance;
+    private static _ObjectPool instance;
     private Dictionary<string, Queue<GameObject>> objectPool = new Dictionary<string, Queue<GameObject>>();
     private GameObject pool;
-    public static ObjectPool Instance
+    public static _ObjectPool Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new ObjectPool();
+                instance = new _ObjectPool();
             }
             return instance;
         }

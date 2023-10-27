@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rifle : Gun
+public class Rifle : _Gun
 {
     protected override void Fire()
     {
@@ -10,12 +10,12 @@ public class Rifle : Gun
 
         RaycastHit2D hit2D = Physics2D.Raycast(muzzlePos.position, direction, 30);
 
-        GameObject bullet = ObjectPool.Instance.GetObject(bulletPrefab);
+        GameObject bullet = _ObjectPool.Instance.GetObject(bulletPrefab);
         LineRenderer tracer = bullet.GetComponent<LineRenderer>();
         tracer.SetPosition(0, muzzlePos.position);
         tracer.SetPosition(1, hit2D.point);
 
-        GameObject shell = ObjectPool.Instance.GetObject(shellPrefab);
+        GameObject shell = _ObjectPool.Instance.GetObject(shellPrefab);
         shell.transform.position = shellPos.position;
         shell.transform.rotation = shellPos.rotation;
     }
