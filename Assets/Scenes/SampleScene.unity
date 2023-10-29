@@ -3850,6 +3850,7 @@ GameObject:
   - component: {fileID: 812020007}
   - component: {fileID: 812020009}
   - component: {fileID: 812020008}
+  - component: {fileID: 812020010}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Untagged
@@ -3947,6 +3948,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &812020010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812020006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3aafdbff209db14099f8b008e5e4bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 8041168102606650371, guid: 6a77567889405c04bab756a2dedd6d88, type: 3}
+  shellPrefab: {fileID: 8944638123341174845, guid: 6fd882a57b06f6b4e9261f019f95d1d0, type: 3}
+  interval: 1
+  bulletNum: 5
+  bulletAngle: 15
 --- !u!1 &816355384
 GameObject:
   m_ObjectHideFlags: 0
