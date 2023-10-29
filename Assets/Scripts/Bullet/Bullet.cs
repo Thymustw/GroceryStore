@@ -22,8 +22,12 @@ public class Bullet : MonoBehaviour
     // Trigger then explosion and vanish. 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        GameObject exp = ObjectPool.Instance.GetObject(explosionPrefab);
+        exp.transform.position = transform.position;
+        
+        //Destroy(gameObject);
+        ObjectPool.Instance.PushObject(gameObject);
     }
 
 

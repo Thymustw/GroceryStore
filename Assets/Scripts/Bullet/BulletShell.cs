@@ -17,10 +17,19 @@ public class BulletShell : MonoBehaviour
         // Get component.
         rigidbody = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+    }
 
+    private void OnEnable() 
+    {
         // Let shell eject out.
-        rigidbody.velocity = Vector3.up * speed;
+        float shellAngel = Random.Range(-30f, 30f);
+        rigidbody.velocity = Quaternion.AngleAxis(shellAngel, Vector3.forward) * Vector3.up * speed;
 
+        // Reset the status.
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
+        rigidbody.gravityScale = 3f;
+        
+        // Disappear it.
         StartCoroutine(Stop());
     }
 
@@ -42,6 +51,7 @@ public class BulletShell : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        ObjectPool.Instance.PushObject(gameObject);
     }
 }

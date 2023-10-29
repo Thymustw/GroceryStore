@@ -19,6 +19,7 @@ public class Explosion : MonoBehaviour
         // Play anime and destory it.
         info = animator.GetCurrentAnimatorStateInfo(0);
         if (info.normalizedTime >= 1.0f)
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            ObjectPool.Instance.PushObject(gameObject);
     }
 }

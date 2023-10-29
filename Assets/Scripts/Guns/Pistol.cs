@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -16,6 +15,7 @@ public class Pistol : MonoBehaviour
     public GameObject shellPrefab;
     private Transform muzzlePos;
     private Transform shellPos;
+    private float bulletAngel;
 
     //      __Timer
     private float timer;
@@ -75,7 +75,13 @@ public class Pistol : MonoBehaviour
 
 
         // Check if player can shoot or not.
-        if(Input.GetButton("Fire1"))
+        FireCtrl();
+    }
+
+
+    private void FireCtrl()
+    {
+        if(Input.GetButtonDown("Fire1"))
         {
             if(timer == 0)
             {
@@ -85,17 +91,23 @@ public class Pistol : MonoBehaviour
         }
     }
 
-
     private void Fire()
     {
         // Play anime.
         animator.SetTrigger("Shoot");
 
         // Shoot bullet from muzzle position.
-        GameObject bullet = Instantiate(bulletPrefab, muzzlePos.position, Quaternion.identity);
-        bullet.GetComponent<Bullet>().SetSpeed(direction);
+        //GameObject bullet = Instantiate(bulletPrefab, muzzlePos.position, Quaternion.identity);
+        GameObject bullet = ObjectPool.Instance.GetObject(bulletPrefab);
+        bullet.transform.position = muzzlePos.position;
+
+        bulletAngel = Random.Range(-5f, 5f);
+        bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(bulletAngel, Vector3.forward) * direction);
 
         // Eject the shell.
-        Instantiate(shellPrefab, shellPos.position, shellPos.rotation);
+        //Instantiate(shellPrefab, shellPos.position, shellPos.rotation);
+        GameObject shell = ObjectPool.Instance.GetObject(shellPrefab);
+        shell.transform.position = shellPos.position;
+        shell.transform.rotation = shellPos.rotation;
     }
 }
