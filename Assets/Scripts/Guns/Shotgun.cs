@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Shotgun : Gun
 {
+    // Shotguns parameter.
     public int bulletNum = 3;
     public float bulletAngle = 15;
 
