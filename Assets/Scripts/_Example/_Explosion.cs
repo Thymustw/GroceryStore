@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosion : MonoBehaviour
+public class _Explosion : MonoBehaviour
 {
     private Animator animator;
     private AnimatorStateInfo info;
@@ -18,7 +18,7 @@ public class Explosion : MonoBehaviour
         if (info.normalizedTime >= 1)
         {
             // Destroy(gameObject);
-            ObjectPool.Instance.PushObject(gameObject);
+            _ObjectPool.Instance.PushObject(gameObject);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletShell : MonoBehaviour
+public class _BulletShell : MonoBehaviour
 {
     public float speed;
     public float stopTime = .5f;
@@ -41,6 +41,6 @@ public class BulletShell : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         // Destroy(gameObject);
-        ObjectPool.Instance.PushObject(gameObject);
+        _ObjectPool.Instance.PushObject(gameObject);
     }
 }

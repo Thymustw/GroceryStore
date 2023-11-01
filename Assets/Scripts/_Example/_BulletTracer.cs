@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletTracer : MonoBehaviour
+public class _BulletTracer : MonoBehaviour
 {
     public float fadeSpeed;
     private LineRenderer line;
@@ -28,6 +28,6 @@ public class BulletTracer : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        ObjectPool.Instance.PushObject(gameObject);
+        _ObjectPool.Instance.PushObject(gameObject);
     }
 }

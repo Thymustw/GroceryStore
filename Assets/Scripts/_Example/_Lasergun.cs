@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lasergun : Gun
+public class _Lasergun : _Gun
 {
     private GameObject effect;
     private LineRenderer laser;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class _Bullet : MonoBehaviour
 {
     public float speed;
     public GameObject explosionPrefab;
@@ -26,10 +26,10 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        GameObject exp = ObjectPool.Instance.GetObject(explosionPrefab);
+        GameObject exp = _ObjectPool.Instance.GetObject(explosionPrefab);
         exp.transform.position = transform.position;
 
         // Destroy(gameObject);
-        ObjectPool.Instance.PushObject(gameObject);
+        _ObjectPool.Instance.PushObject(gameObject);
     }
 }

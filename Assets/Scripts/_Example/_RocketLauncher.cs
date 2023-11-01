@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RocketLauncher : Gun
+public class _RocketLauncher : _Gun
 {
     public int rocketNum = 3;
     public float rocketAngle = 15;
@@ -20,7 +20,7 @@ public class RocketLauncher : Gun
         int median = rocketNum / 2;
         for (int i = 0; i < rocketNum; i++)
         {
-            GameObject bullet = ObjectPool.Instance.GetObject(bulletPrefab);
+            GameObject bullet = _ObjectPool.Instance.GetObject(bulletPrefab);
             bullet.transform.position = muzzlePos.position;
 
             if (rocketNum % 2 == 1)
@@ -31,7 +31,7 @@ public class RocketLauncher : Gun
             {
                 bullet.transform.right = Quaternion.AngleAxis(rocketAngle * (i - median) + rocketAngle / 2, Vector3.forward) * direction;
             }
-            bullet.GetComponent<Rocket>().SetTarget(mousePos);
+            bullet.GetComponent<_Rocket>().SetTarget(mousePos);
         }
     }
 }
