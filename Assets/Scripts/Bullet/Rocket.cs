@@ -48,12 +48,15 @@ public class Rocket : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        GameObject explosion = ObjectPool.Instance.GetObject(explosionPrefab);
-        explosion.transform.position = transform.position;
-        
-        // Let rocket vanish slower.
-        rigidbody.velocity = Vector2.zero;
-        StartCoroutine(Push(gameObject, .3f));
+        if (other.CompareTag("Enemy") || other.CompareTag("Wall"))
+        {
+            GameObject explosion = ObjectPool.Instance.GetObject(explosionPrefab);
+            explosion.transform.position = transform.position;
+            
+            // Let rocket vanish slower.
+            rigidbody.velocity = Vector2.zero;
+            StartCoroutine(Push(gameObject, .3f));
+        }
     }
 
 

@@ -16,14 +16,16 @@ public class PlayerMovement : MonoBehaviour
     public GameObject[] guns;
     private int gunNum;
     
-    private void Awake() {
+    private void Awake() 
+    {
         // Get component.
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
         guns[0].SetActive(true);
     }
 
-    private void Update() {
+    private void Update() 
+    {
         // This func just for Debuging. 
         SwitchGun();
 
@@ -44,15 +46,12 @@ public class PlayerMovement : MonoBehaviour
         else
             animator.SetBool("isMoving", false);
 
+
         // Detect turn left or right, and filp it.
         if (mousePos.x > transform.position.x)
-        {
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        }
         else
-        {
             transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        }
     }
 
     // This func just for Debuging.

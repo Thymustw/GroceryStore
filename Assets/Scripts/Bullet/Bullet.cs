@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
 
     //      __Prefab
     public GameObject explosionPrefab;
-
+    
 
     private void Awake() 
     {
@@ -22,12 +22,16 @@ public class Bullet : MonoBehaviour
     // Trigger then explosion and vanish. 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        GameObject exp = ObjectPool.Instance.GetObject(explosionPrefab);
-        exp.transform.position = transform.position;
-        
-        //Destroy(gameObject);
-        ObjectPool.Instance.PushObject(gameObject);
+        if (other.CompareTag("Enemy"))
+        {
+            HitColl();
+            print(other.gameObject.name);
+            GameManager.Instance.DamageCount(other.gameObject);
+        }
+        if (other.CompareTag("Wall"))
+        {
+            HitColl();
+        }
     }
 
 
@@ -35,5 +39,15 @@ public class Bullet : MonoBehaviour
     public void SetSpeed(Vector2 direction)
     {
         rigidbody.velocity = direction * speed;
+    }
+
+    private void HitColl()
+    {
+        //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        GameObject exp = ObjectPool.Instance.GetObject(explosionPrefab);
+        exp.transform.position = transform.position;
+            
+        //Destroy(gameObject);
+        ObjectPool.Instance.PushObject(gameObject);
     }
 }
