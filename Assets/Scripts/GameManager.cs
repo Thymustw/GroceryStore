@@ -5,10 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    // The guns status parameter.
+    public int maxBulletCount;
+    public int numPreShoot;
+    public int maxReboundTime;
+    public float interval;
+
+
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(this);
+
+        // Set the guns status.
+        maxBulletCount = 1;
+        numPreShoot = 1;
+        maxReboundTime = 1;
+        interval = 1;
     }
 
 
@@ -18,6 +31,8 @@ public class GameManager : Singleton<GameManager>
         if (SceneManager.GetActiveScene().name == "ChooseScene")
             if (Input.GetMouseButtonDown(0) && MouseDetect().collider.CompareTag("AttackBox"))
                 SceneManager.LoadScene("SampleScene");
+
+        UpgradeTheWeapon();
     }
 
 
@@ -35,5 +50,24 @@ public class GameManager : Singleton<GameManager>
     public void DamageCount(GameObject hurt)
     {
         Destroy(hurt);
+    }
+
+
+    // A small system for the weapon upgrade.
+    private void UpgradeTheWeapon()
+    {
+        // For rebound.
+        if(Input.GetKeyDown(KeyCode.P))
+            maxReboundTime = maxReboundTime + 1;
+        if(Input.GetKeyDown(KeyCode.L) && --maxReboundTime <= 1)
+            maxReboundTime = 1;
+
+        // For bullet num.
+        if(Input.GetKeyDown(KeyCode.O))
+            maxBulletCount = maxBulletCount + 1;
+        if(Input.GetKeyDown(KeyCode.K) && --maxBulletCount <= 1)
+            maxBulletCount = 1;
+
+        // TODO:For num pre shoot.
     }
 }

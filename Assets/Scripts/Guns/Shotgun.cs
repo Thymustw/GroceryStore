@@ -5,7 +5,8 @@ using UnityEngine;
 public class Shotgun : Gun
 {
     // Shotguns parameter.
-    public int bulletNum = 3;
+    private int bulletCount;
+    private int numPreShoot;
     public float bulletAngle = 15;
 
 
@@ -14,15 +15,19 @@ public class Shotgun : Gun
         // Play anime.
         animator.SetTrigger("Shoot");
 
+        // Get the gun status before fire.
+        bulletCount = GameManager.Instance.maxBulletCount;
+        numPreShoot = GameManager.Instance.numPreShoot;
+
         // Find center to calculate the direction of each bullet.
-        int median = bulletNum / 2;
-        for (int i = 0; i < bulletNum; i++)
+        int median = bulletCount / 2;
+        for (int i = 0; i < bulletCount; i++)
         {
             GameObject bullet = ObjectPool.Instance.GetObject(bulletPrefab);
             bullet.transform.position = muzzlePos.position;
             
             // Even or odd, then count and shoot.
-            if(bulletNum % 2 == 1)
+            if(bulletCount % 2 == 1)
             {
                 bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(bulletAngle * (i - median), Vector3.forward) * direction);
             }
@@ -36,4 +41,6 @@ public class Shotgun : Gun
         shell.transform.position = shellPos.position;
         shell.transform.rotation = shellPos.rotation;
     }
+
+    //TODO:Create multi time shoot func. Use IEnumerator
 }
