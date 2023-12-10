@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     // Bullet parameter.
-    public float speed;
+    private float speed;
     new private Rigidbody2D rigidbody;
-    new int reboundTime;
-    new private Vector2 preDirection;
+    int reboundTime;
+    private Vector2 preDirection;
+    private float localScaleX;
 
     //      __Prefab
     public GameObject explosionPrefab;
+    private PlayerStats playerStats;
     
 
     private void Awake() 
@@ -21,30 +24,38 @@ public class Bullet : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
-
     private void OnEnable() 
     {
         // Recount when use it.
         reboundTime = 0;
+        playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        speed = GameManager.Instance.BulletSpeed();
     }
+
+
+    private void Update()
+    {
+        transform.right = rigidbody.velocity;
+    } 
 
 
     // Detect the THINGS and do func.
     // Use OnCollisionEnter2D for the "normal".
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        
         if (other.collider.CompareTag("Enemy"))
         {
-            HitColl();
-            GameManager.Instance.DamageCount(other.gameObject);
+            HitColl(other.contacts[0].point);
+            //TODO:Change to correct func.
+            float damage = GameManager.Instance.BulletDamage();
+            GameManager.Instance.DamageCount(other.gameObject, damage);
         }
         if (other.collider.CompareTag("Wall"))
         {   
-            if(++reboundTime < GameManager.Instance.maxReboundTime)
+            if(++reboundTime < GameManager.Instance.MaxReboundTime())
                 Rebound(other);
             else
-                HitColl();
+                HitColl(other.contacts[0].point);
         }
     }
 
@@ -87,11 +98,11 @@ public class Bullet : MonoBehaviour
 
 
     // If hit coll, then push object to the objectpool.
-    private void HitColl()
+    private void HitColl(Vector2 hitPoint)
     {
         //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         GameObject exp = ObjectPool.Instance.GetObject(explosionPrefab);
-        exp.transform.position = transform.position;
+        exp.transform.position = hitPoint;
             
         //Destroy(gameObject);
         ObjectPool.Instance.PushObject(gameObject);

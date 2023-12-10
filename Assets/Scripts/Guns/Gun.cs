@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Gun : MonoBehaviour
 {
@@ -83,7 +84,7 @@ public class Gun : MonoBehaviour
             if(timer == 0)
             {
                 Fire();
-                timer = GameManager.Instance.interval;
+                timer = GameManager.Instance.IntervalPreShoot();
             }
         }
     }

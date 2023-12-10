@@ -15,13 +15,14 @@ public class AttackState : IState
 
     public void OnEnter()
     {
-
+        parameter.animator.Play("Attack");
     }
 
 
     public void OnUpdate()
     {
-
+        GameManager.Instance.DamageCount(parameter.target.gameObject, parameter.enemyStats.GetDamage());
+        manager.TransitionState(StateType.Idle);
     }
 
 

@@ -1,46 +1,81 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Shotgun : Gun
 {
     // Shotguns parameter.
-    private int bulletCount;
-    private int numPreShoot;
+    private int maxBulletCount;
+    private int numPreShootBullet;
+    private float intervalPreBullet;
+    //private Transform firstShootPos;
     public float bulletAngle = 15;
+
+    protected override void Awake() 
+    {
+        base.Awake();
+    }
 
 
     protected override void Fire()
     {
-        // Play anime.
-        animator.SetTrigger("Shoot");
-
         // Get the gun status before fire.
-        bulletCount = GameManager.Instance.maxBulletCount;
-        numPreShoot = GameManager.Instance.numPreShoot;
+        maxBulletCount = GameManager.Instance.MaxBulletCount();
+        numPreShootBullet = GameManager.Instance.MaxNumPreShootBullet();
+        intervalPreBullet = GameManager.Instance.IntervalPreBullet();
 
-        // Find center to calculate the direction of each bullet.
-        int median = bulletCount / 2;
-        for (int i = 0; i < bulletCount; i++)
+        // TODO:Get the first shoot position, and shoot.
+        //firstShootPos = GameObject.Find("Muzzle").transform;
+        StartCoroutine(ShootManyTimes(numPreShootBullet, intervalPreBullet));
+    }
+
+
+    // Find center to calculate the direction of each bullet.
+    private void ShotGunShoot()
+    {
+        int median = maxBulletCount / 2;
+        for (int i = 0; i < maxBulletCount; i++)
         {
             GameObject bullet = ObjectPool.Instance.GetObject(bulletPrefab);
             bullet.transform.position = muzzlePos.position;
             
+            float randomAngle = Random.Range(-2f, 2f);
             // Even or odd, then count and shoot.
-            if(bulletCount % 2 == 1)
+            if(maxBulletCount % 2 == 1)
             {
-                bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(bulletAngle * (i - median), Vector3.forward) * direction);
+                bullet.transform.localScale = new Vector3 (0.75f, 0.75f);
+                bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(bulletAngle * (i - median) + randomAngle, Vector3.forward) * direction);
             }
             else
             {
-                bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(bulletAngle * (i - median) + bulletAngle / 2, Vector3.forward) * direction);
+                bullet.transform.localScale = new Vector3 (0.75f, 0.75f);
+                bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(bulletAngle * (i - median) + bulletAngle / 2 + randomAngle, Vector3.forward) * direction);
             }
         }
 
-        GameObject shell = ObjectPool.Instance.GetObject(shellPrefab);
-        shell.transform.position = shellPos.position;
-        shell.transform.rotation = shellPos.rotation;
+        //GameObject shell = ObjectPool.Instance.GetObject(shellPrefab);
+        //shell.transform.position = shellPos.position;
+        //shell.transform.rotation = shellPos.rotation;
     }
 
-    //TODO:Create multi time shoot func. Use IEnumerator
+
+    // Multi time shoot.
+    // TODO: Turn back the final time to avoid the shoot interval.
+    private IEnumerator ShootManyTimes(int preShootInterval, float preBulletInterval)
+    {      
+        for (int i = 0; i < preShootInterval; i++)
+        {
+            // Play anime.
+            animator.SetTrigger("Shoot");
+
+            ShotGunShoot();
+            yield return new WaitForSeconds(preBulletInterval);
+        }
+    } 
+
+    void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 }

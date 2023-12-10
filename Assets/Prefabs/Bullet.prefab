@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2915725877519872295}
   - component: {fileID: 1659013162850659177}
-  - component: {fileID: 1507571341048075990}
+  - component: {fileID: 6832556193367930712}
   - component: {fileID: 611002873379616741}
   - component: {fileID: 245732060852092636}
   m_Layer: 6
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.093, y: 0.712, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
-  m_Sprite: {fileID: -8684525837257662277, guid: a541efad341549a41848c320836f0dc1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5ef9dfdc9c6df2e43af5062df6a91e54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -87,8 +87,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &1507571341048075990
-CircleCollider2D:
+--- !u!70 &6832556193367930712
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -119,9 +119,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.15235174
+  m_Offset: {x: 0.013752048, y: 0.025042932}
+  m_Size: {x: 0.8220749, y: 0.05411588}
+  m_Direction: 1
 --- !u!50 &611002873379616741
 Rigidbody2D:
   serializedVersion: 4
@@ -136,9 +136,9 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ae520a2739e060d408343c333c4989e1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -148,7 +148,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &245732060852092636
 MonoBehaviour:
   m_ObjectHideFlags: 0

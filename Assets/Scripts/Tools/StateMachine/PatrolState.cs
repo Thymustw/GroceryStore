@@ -15,7 +15,7 @@ public class PatrolState : IState
 
     public void OnEnter()
     {
-
+        //parameter.animator.Play("Run");
     }
 
 

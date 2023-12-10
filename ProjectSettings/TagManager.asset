@@ -9,6 +9,7 @@ TagManager:
   - PresentBox
   - ShopBox
   - Enemy
+  - Item
   layers:
   - Default
   - TransparentFX
