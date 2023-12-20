@@ -6,20 +6,21 @@ public class HealthBarUI : MonoBehaviour
 {
     Image healthSlider;
 
-    GameManager gameManager;
-
     void Awake() 
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.UpdateHealthOnHurt += UpdateHealthBar;
-
+        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        GameManager.Instance.UpdateHealthOnHurt += UpdateHealthBar;
         healthSlider = transform.GetChild(0).GetComponent<Image>();
+    }
+
+    void Start()
+    {
+        GameManager.Instance.AddWaitGameObjectAndSetActiveFalse(this.gameObject);
     }
 
     void OnDestroy()
     {
-        gameManager.UpdateHealthOnHurt -= UpdateHealthBar;
-        gameManager = null;
+        GameManager.Instance.UpdateHealthOnHurt -= UpdateHealthBar;
         healthSlider = null;
     }
 

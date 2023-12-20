@@ -212,6 +212,7 @@ MonoBehaviour:
   parameter:
     enemyStats: {fileID: 0}
     target: {fileID: 0}
+    currentHealth: 0
     attackPoint: {fileID: 0}
     animator: {fileID: 0}
 --- !u!1 &8845379138402885915

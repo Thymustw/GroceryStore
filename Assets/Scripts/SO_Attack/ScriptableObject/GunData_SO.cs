@@ -6,13 +6,35 @@ using UnityEngine;
 public class GunData_SO : ScriptableObject
 {
     [Header("Bullet Info")]
-    public float damage;
-    public float bulletSpeed;
+    public float baseDamage;
+    public float baseBulletSpeed;
 
     [Header("ShotGun Info")]
-    public int maxBulletCount;
-    public int maxReboundTime;
-    public int numPreShootBullet;
-    public float intervalPreShoot;
-    public float intervalPreBullet;
+    public int baseBulletCount;
+    public int baseReboundTime;
+    public int baseNumPreShootBullet;
+    public float baseIntervalPreShoot;
+    public float baseIntervalPreBullet;
+
+    [Header("CURRENT ShotGun Info(DONT CHANGE)")]
+    public float currentDamage;
+    public float currentBulletSpeed;
+
+    public int currentBulletCount;
+    public int currentReboundTime;
+    public int currentNumPreShootBullet;
+    public float currentIntervalPreShoot;
+    public float currentIntervalPreBullet;
+
+    void OnEnable() 
+    {
+        currentDamage = baseDamage;
+        currentBulletSpeed = baseBulletSpeed;
+
+        currentBulletCount = baseBulletCount;
+        currentReboundTime = baseReboundTime;
+        currentNumPreShootBullet = baseNumPreShootBullet;
+        currentIntervalPreShoot = baseIntervalPreShoot;
+        currentIntervalPreBullet = baseIntervalPreBullet;
+    }
 }

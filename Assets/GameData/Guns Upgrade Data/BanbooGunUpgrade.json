@@ -1,0 +1,39 @@
+{
+    "Upgrade": [
+        {
+            "First": [ {"AddATK":1},{"MinusRate":0.01} ]
+        },
+        {
+            "First": [ {"AddBullet": 2} ],
+            "Second": [ {"HitToSpilt": true} ],
+            "Third": [ {"ChaseBullet": true} ]
+        },
+        {
+            "First": [ {"AddATK":1},{"MinusRate":0.01} ]
+        },
+        {
+            "First": [ {"AddATK":1},{"MinusRate":0.01} ]
+        },
+        {
+            "First": [ {"AddRebound": 1} ],
+            "Second": [ {"ThrougntEnemy": true} ],
+            "Third": [ {"EnemyDeadAndShootTenCrossBullet": true} ]
+        },
+        {
+            "First": [ {"AddATK":3} ]
+        },
+        {
+            "First": [ {"AddRebound": 1} ],
+            "Second": [ {"AddBullet": 1} ],
+            "Third": [ {"AddPreShootNum": 1} ]
+        },
+        {
+            "First": [ {"AddATK":1},{"MinusRate":0.01} ]
+        },
+        {
+            "First": [ {"AddRebound": 1} ],
+            "Second": [ {"AddBullet": 1} ],
+            "Third": [ {"AddPreShootNum": 1} ]
+        }
+    ]
+}

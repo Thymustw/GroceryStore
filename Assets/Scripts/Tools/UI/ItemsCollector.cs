@@ -3,31 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.PlayerLoop;
 
-public class ItemsManager : Singleton<ItemsManager>
+public class ItemsCollector : MonoBehaviour
 {
-    private Array items;
+    private List<GameObject> items = new List<GameObject>();
     
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        //SceneManager.sceneUnloaded += OnSceneUnloaded;
+        List<GameObject> itemsTemp = GameManager.Instance.GetOutputItems();
+        foreach(var item in itemsTemp)
+        {   
+            GameObject temp = Instantiate(item, transform);
+            items.Add(temp);
+        }
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    void Start()
     {
-        items = GameObject.FindGameObjectsWithTag("Item");
+        GameManager.Instance.RigisterItem(gameObject.GetComponent<ItemsCollector>());
+        GameManager.Instance.AddWaitGameObjectAndSetActiveFalse(this.gameObject);
     }
 
-    /*void OnSceneUnloaded(Scene scene)
-    {
-
-    }*/
-
-
+    #region  "Get Value"
     public float GetTotalPlusBulletSpeed()
     {
         float valve = 0;
@@ -98,6 +96,8 @@ public class ItemsManager : Singleton<ItemsManager>
         if (items != null)
             foreach (GameObject item in items)
                 valve *= item.GetComponent<ItemStats>().itemData.timesDamagePersentage;
+        //TODO:要確認。
+        valve = Mathf.Max(1, valve);
         return valve;
     }
 
@@ -107,6 +107,9 @@ public class ItemsManager : Singleton<ItemsManager>
         if (items != null)
             foreach (GameObject item in items)
                 valve *= item.GetComponent<ItemStats>().itemData.timesBulletSize;
+        //TODO:要確認。
+        valve = Mathf.Max(1, valve);
         return valve;
     }
+    #endregion
 }

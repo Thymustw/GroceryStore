@@ -41,7 +41,7 @@ public class ChaseState : IState
 
 
         // if in attack range, then change state to ATTACK.
-        if (Physics2D.OverlapCircle(parameter.attackPoint.position, parameter.enemyStats.GetAttackRadius(), parameter.enemyStats.GetTargetLayerMask()))
+        if (Physics2D.OverlapCircle(parameter.attackPoint.position, parameter.enemyStats.GetAttackRadius(), parameter.enemyStats.GetTargetLayerMask()) && parameter.target)
         {
             manager.TransitionState(StateType.Attack);
         }

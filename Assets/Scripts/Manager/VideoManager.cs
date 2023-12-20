@@ -13,7 +13,7 @@ public class VideoManager : Singleton<VideoManager>
         base.Awake();
         
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
+        //SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -28,10 +28,10 @@ public class VideoManager : Singleton<VideoManager>
         }
     }
 
-    private void OnSceneUnloaded(Scene scene)
-    {
-        StopAllCoroutines();
-    }
+    // private void OnSceneUnloaded(Scene scene)
+    // {
+    //     StopAllCoroutines();
+    // }
 
 
     IEnumerator PlayVideo(string videoPath)

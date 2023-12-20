@@ -17,6 +17,18 @@ public class ObjectPool : Singleton<ObjectPool>
         pool = this.gameObject;
         //SceneManager.activeSceneChanged += OnSceneChanged;
     }
+    /*private static ObjectPool instance;
+    public static ObjectPool Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new ObjectPool();
+            }
+            return instance;
+        }
+    }*/
 
 
     // Regedit the object.
@@ -31,8 +43,8 @@ public class ObjectPool : Singleton<ObjectPool>
             PushObject(_object);
 
             // Check the objectpool exist or not.
-            //if (pool == null)
-            //    pool = new GameObject("ObjectPool");
+            if (pool == null)
+                pool = new GameObject("ObjectPool");
 
             // Check the namepool exist or not.
             GameObject childPool = GameObject.Find(prefab.name + "Pool");
@@ -75,7 +87,7 @@ public class ObjectPool : Singleton<ObjectPool>
         }
     }*/
 
-    public void GetTheChild()
+    public void StopChildren()
     {
         foreach(Transform child in pool.transform.GetComponentsInChildren<Transform>())
         {

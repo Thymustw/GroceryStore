@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -25,8 +23,15 @@ public class PlayerMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         playerStats = GetComponent<PlayerStats>();
 
+        transform.position = new Vector2(0, 0);
         gunNum = playerStats.GetGunNumber();
         guns[gunNum].SetActive(true);
+        GameManager.Instance.RigisterPlayer(playerStats);
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.AddWaitGameObjectAndSetActiveFalse(gameObject);
     }
 
     private void Update() 
@@ -45,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
 
     
         // The simple StateMachine for change the move state.
-        // TODO:Makes it into real StateMachine.
         if(input != Vector2.zero)
             animator.SetBool("isMoving", true);
         else

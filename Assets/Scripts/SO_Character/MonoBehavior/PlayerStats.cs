@@ -59,87 +59,93 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region "Read from GunData_SO"
-    public float GetDamage()
+    public float GetCurrentDamage()
     {
         if (gunData != null)
-            return gunData.damage;
+            return gunData.currentDamage;
         else return 0;
     }
 
-    public float GetBulletSpeed()
+    public void SetCurrentDamage(float value)
     {
         if (gunData != null)
-            return gunData.bulletSpeed;
+            gunData.currentDamage = value;
+    }
+
+    public float GetCurrentBulletSpeed()
+    {
+        if (gunData != null)
+            return gunData.currentBulletSpeed;
         else return 0;
     }
 
 
-    public int GetMaxBulletCount()
+    public int GetCurrentBulletCount()
     {
         if(gunData != null)
-            return gunData.maxBulletCount;
+            return gunData.currentBulletCount;
         else return 0;
     }
 
-    public void SetMaxBulletCount(int value)
+    public void SetCurrentBulletCount(int value)
     {
         if(gunData != null)
-            gunData.maxBulletCount = value;
+            gunData.currentBulletCount = value;
     }
 
 
-    public int GetMaxReboundTime()
+    public int GetCurrentReboundTime()
     {
         if (gunData != null)
-            return gunData.maxReboundTime;
+            return gunData.currentReboundTime;
         else return 0;
     }
 
-    public void SetMaxReboundTime(int value)
+    public void SetCurrentReboundTime(int value)
     {
         if (gunData != null)
-            gunData.maxReboundTime = value;
+            gunData.currentReboundTime = value;
     }
 
 
-    public int GetNumPreShootBullet()
+    public int GetCurrentNumPreShootBullet()
     {
         if (gunData != null)
-            return gunData.numPreShootBullet;
+            return gunData.currentNumPreShootBullet;
         else return 0;
     }
 
-    public void SetNumPreShootBullet(int value)
+    public void SetCurrentNumPreShootBullet(int value)
     {
         if (gunData != null)
-            gunData.numPreShootBullet = value;
+            gunData.currentNumPreShootBullet = value;
     }
 
 
-    public float GetIntervalPreShoot()
+    public float GetCurrentIntervalPreShoot()
     {
         if (gunData != null)
-            return gunData.intervalPreShoot;
+            return gunData.currentIntervalPreShoot;
         else return 0;
     }
-    public void SetIntervalPreShoot(float value)
+    public void SetCurrentIntervalPreShoot(float value)
     {
         if (gunData != null)
-            gunData.intervalPreShoot = value;
+            gunData.currentIntervalPreShoot = value;
     }
 
 
-    public float GetIntervalPreBullet()
+    public float GetCurrentIntervalPreBullet()
     {
         if (gunData != null)
-            return gunData.intervalPreBullet;
+            return gunData.currentIntervalPreBullet;
         else return 0;
     }
 
-    public void SetIntervalPreBullet(float value)
+    public void SetCurrentIntervalPreBullet(float value)
     {
         if (gunData != null)
-            gunData.intervalPreBullet = value;
+            gunData.currentIntervalPreBullet = value;
     }
     #endregion
 }

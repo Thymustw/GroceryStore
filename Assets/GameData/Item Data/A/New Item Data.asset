@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba14dd00981ee140bceb7747f66102c, type: 3}
   m_Name: New Item Data
   m_EditorClassIdentifier: 
-  plusBulletCount: 0
-  plusReboundTime: 0
-  plusNumPreShootBullet: 0
+  plusBulletCount: 1
+  plusReboundTime: 1
+  plusNumPreShootBullet: 1
   minusIntervalPreShoot: 0.1
   minusIntervalPreBullet: 0.05
   plusBulletSpeed: 1

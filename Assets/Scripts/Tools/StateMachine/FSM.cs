@@ -17,6 +17,7 @@ public class Parameter
     public EnemyStats enemyStats;
 
     public Transform target;
+    public float currentHealth;
     /*public LayerMask targetLayer
     {
         get{ return enemy.targetLayer;}
@@ -59,11 +60,12 @@ public class Parameter
 }
 
 
-public class FSM : MonoBehaviour
+public class FSM : MonoBehaviour, IEndGameObserver
 {
     private IState currentState;
     private Dictionary<StateType, IState> states = new Dictionary<StateType, IState>();
     public Parameter parameter = new Parameter();
+    //private bool isDead = false;
     
     
     void Awake()
@@ -72,6 +74,13 @@ public class FSM : MonoBehaviour
         parameter.enemyStats = GetComponent<EnemyStats>();
         parameter.attackPoint = transform.GetChild(0);
         parameter.target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        parameter.currentHealth = parameter.enemyStats.GetMaxHealth();
+    }
+
+    void OnEnable()
+    {
+        GameManager.Instance.AddEndGameObserver(this);
     }
 
 
@@ -84,13 +93,23 @@ public class FSM : MonoBehaviour
         states.Add(StateType.React, new ReactState(this));
 
         TransitionState(StateType.Idle);
+        GameManager.Instance.AddWaitGameObjectAndSetActiveFalse(this.gameObject);
     }
 
 
     void Update()
     {
+        if (parameter.currentHealth == 0)
+            //isDead = true;
+            Destroy(this.gameObject);
+
         currentState.OnUpdate();
         //print(parameter.enemyStats.GetCurrentHealth());
+    }
+
+    void OnDisable()
+    {
+        GameManager.Instance.RemoveEndGameObserver(this);
     }
 
 
@@ -118,6 +137,13 @@ public class FSM : MonoBehaviour
                 transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             }
         }
+    }
+
+    public void EndNotify()
+    {
+        parameter.animator.StopPlayback();
+        parameter.target = null;
+        print(parameter.target);
     }
 
     // Check player in chaseradius.

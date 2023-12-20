@@ -12,10 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905510ae9c839374fa836be0e94079f7, type: 3}
   m_Name: Player Attack Data
   m_EditorClassIdentifier: 
-  damage: 1
-  bulletSpeed: 3
-  maxBulletCount: 1
-  maxReboundTime: 1
-  numPreShootBullet: 1
-  intervalPreShoot: 1
-  intervalPreBullet: 0.3
+  baseDamage: 2
+  baseBulletSpeed: 3
+  baseBulletCount: 1
+  baseReboundTime: 1
+  baseNumPreShootBullet: 1
+  baseIntervalPreShoot: 1
+  baseIntervalPreBullet: 0.5
+  currentDamage: 1
+  currentBulletSpeed: 3
+  currentBulletCount: 1
+  currentReboundTime: 1
+  currentNumPreShootBullet: 1
+  currentIntervalPreShoot: 1
+  currentIntervalPreBullet: 0.5
