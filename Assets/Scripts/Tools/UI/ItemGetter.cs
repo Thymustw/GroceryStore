@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +11,8 @@ public class ItemGetter : Singleton<ItemGetter>
         GameManager.Instance.RigisterItemGetter(this);
     }
 
-    void SetText(GameObject item)
+    public void SetText(GameObject item)
     {
-        
+        textWin.text = item.name;
     }
 }

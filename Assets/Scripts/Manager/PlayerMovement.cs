@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -26,11 +25,11 @@ public class PlayerMovement : MonoBehaviour
         transform.position = new Vector2(0, 0);
         gunNum = playerStats.GetGunNumber();
         guns[gunNum].SetActive(true);
-        GameManager.Instance.RigisterPlayer(playerStats);
     }
 
     private void Start()
     {
+        GameManager.Instance.RigisterPlayer(playerStats);
         GameManager.Instance.AddWaitGameObjectAndSetActiveFalse(gameObject);
     }
 
@@ -44,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         input.y = Input.GetAxisRaw("Vertical");
 
         // Let velocity become input * speed.
-        rigidbody.velocity = input.normalized * playerStats.GetWalkSpeed();
+        rigidbody.velocity = input.normalized * GameManager.Instance.RunSpeed();
         // Get your mouse position on the screen.
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

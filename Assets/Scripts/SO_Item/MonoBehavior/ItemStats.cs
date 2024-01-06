@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemStats : MonoBehaviour
@@ -70,6 +67,20 @@ public class ItemStats : MonoBehaviour
     {
         if (itemData != null)
             return itemData.plusBulletDamage;
+        else return 0;
+    }
+
+    public float GetTimesRunSpeed()
+    {
+        if (itemData != null)
+            return itemData.timesRunSpeed;
+        else return 0;
+    }
+
+    public float GetPlusHealth()
+    {
+        if (itemData != null)
+            return itemData.plusHealth;
         else return 0;
     }
     #endregion

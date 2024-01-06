@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,6 +56,8 @@ public class Parameter
     }*/
 
     public Animator animator;
+    public GameObject bulletPrefab;
+    public bool inBattle;
 }
 
 
@@ -94,6 +95,7 @@ public class FSM : MonoBehaviour, IEndGameObserver
 
         TransitionState(StateType.Idle);
         GameManager.Instance.AddWaitGameObjectAndSetActiveFalse(this.gameObject);
+        parameter.inBattle = true;
     }
 
 
@@ -110,6 +112,55 @@ public class FSM : MonoBehaviour, IEndGameObserver
     void OnDisable()
     {
         GameManager.Instance.RemoveEndGameObserver(this);
+        if(GameManager.Instance.GetEnemyDeadAndShootTenCrossBullet() && parameter.inBattle)
+        {
+            GameObject tempL = ObjectPool.Instance.GetObject(parameter.bulletPrefab);
+            tempL.transform.position = this.transform.position;
+            tempL.transform.localScale = new Vector3 (0.75f, 0.75f);
+            tempL.GetComponent<Bullet>().SetSpeed(Vector2.left);
+
+            GameObject tempR = ObjectPool.Instance.GetObject(parameter.bulletPrefab);
+            tempR.transform.position = this.transform.position;
+            tempR.transform.localScale = new Vector3 (0.75f, 0.75f);
+            tempR.GetComponent<Bullet>().SetSpeed(Vector2.right);
+
+            GameObject tempU = ObjectPool.Instance.GetObject(parameter.bulletPrefab);
+            tempU.transform.position = this.transform.position;
+            tempU.transform.localScale = new Vector3 (0.75f, 0.75f);
+            tempU.GetComponent<Bullet>().SetSpeed(Vector2.up);
+
+            GameObject tempD = ObjectPool.Instance.GetObject(parameter.bulletPrefab);
+            tempD.transform.position = this.transform.position;
+            tempD.transform.localScale = new Vector3 (0.75f, 0.75f);
+            tempD.GetComponent<Bullet>().SetSpeed(Vector2.down);
+        }
+
+        if (GameManager.Instance.GetEnemyDeadAndShootCrossBullet() && parameter.inBattle)
+        {
+            GameObject tempL = ObjectPool.Instance.GetObject(parameter.bulletPrefab);
+            tempL.transform.position = this.transform.position;
+            tempL.transform.localScale = new Vector3 (0.75f, 0.75f);
+            Vector2 tempVec2L = new Vector2(1,1);
+            tempL.GetComponent<Bullet>().SetSpeed(tempVec2L.normalized);
+
+            GameObject tempR = ObjectPool.Instance.GetObject(parameter.bulletPrefab);
+            tempR.transform.position = this.transform.position;
+            tempR.transform.localScale = new Vector3 (0.75f, 0.75f);
+            Vector2 tempVec2R = new Vector2(-1,1);
+            tempR.GetComponent<Bullet>().SetSpeed(tempVec2R.normalized);
+
+            GameObject tempU = ObjectPool.Instance.GetObject(parameter.bulletPrefab);
+            tempU.transform.position = this.transform.position;
+            tempU.transform.localScale = new Vector3 (0.75f, 0.75f);
+            Vector2 tempVec2U = new Vector2(-1,-1);
+            tempU.GetComponent<Bullet>().SetSpeed(tempVec2U.normalized);
+
+            GameObject tempD = ObjectPool.Instance.GetObject(parameter.bulletPrefab);
+            tempD.transform.position = this.transform.position;
+            tempD.transform.localScale = new Vector3 (0.75f, 0.75f);
+            Vector2 tempVec2D = new Vector2(1,-1);
+            tempD.GetComponent<Bullet>().SetSpeed(tempVec2D.normalized);
+        }
     }
 
 
@@ -143,7 +194,6 @@ public class FSM : MonoBehaviour, IEndGameObserver
     {
         parameter.animator.StopPlayback();
         parameter.target = null;
-        print(parameter.target);
     }
 
     // Check player in chaseradius.

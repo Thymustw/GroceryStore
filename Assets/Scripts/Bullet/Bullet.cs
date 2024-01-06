@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -11,10 +7,12 @@ public class Bullet : MonoBehaviour
     new private Rigidbody2D rigidbody;
     int reboundTime;
     private Vector2 preDirection;
-    private float localScaleX;
+    private bool hasBeenSpilt;
+    //private int maxSpiltBulletCount = 2;
 
     //      __Prefab
     public GameObject explosionPrefab;
+    //public GameObject bulletPrefab;
     private PlayerStats playerStats;
     
 
@@ -36,8 +34,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         transform.right = rigidbody.velocity;
-    } 
-
+    }
 
     // Detect the THINGS and do func.
     // Use OnCollisionEnter2D for the "normal".
@@ -49,6 +46,36 @@ public class Bullet : MonoBehaviour
             //TODO:Change to correct func.
             float damage = GameManager.Instance.BulletDamage();
             GameManager.Instance.DamageCount(other.gameObject, damage);
+
+            //TODO:Write the HitToSpilt
+            /*if(GameManager.Instance.GetHitToSpilt() && !hasBeenSpilt)
+            {
+                int median = maxSpiltBulletCount / 2;
+                Vector2 enemyCenter = new Vector2(other.transform.position.x - other.contacts[0].point.x, other.transform.position.y - other.contacts[0].point.y);
+                
+                for(int i = 0; i < maxSpiltBulletCount; i++)
+                {
+                    GameObject bullet = ObjectPool.Instance.GetObject(bulletPrefab);
+
+                    //Vector2 bulletCenter;
+                    //Vector2 generatorCenter;
+                    Vector2 direction = enemyCenter.normalized;
+
+                    bullet.transform.position = other.transform.position;
+                    bullet.transform.localScale = new Vector3 (0.75f, 0.75f);
+                    bullet.GetComponent<Bullet>().SetHasBeenSpilt(true);
+
+                    float randomAngle = Random.Range(-2f, 2f);
+                    if(maxSpiltBulletCount % 2 == 1)
+                    {
+                        bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(10 * (i - median) + randomAngle, Vector3.forward) * direction);
+                    }
+                    else
+                    {
+                        bullet.GetComponent<Bullet>().SetSpeed(Quaternion.AngleAxis(10 * (i - median) + 10 / 2 + randomAngle, Vector3.forward) * direction);
+                    }
+                }
+            }*/
         }
         if (other.collider.CompareTag("Wall"))
         {   
@@ -107,6 +134,16 @@ public class Bullet : MonoBehaviour
         //Destroy(gameObject);
         ObjectPool.Instance.PushObject(gameObject);
     }
+
+    /*public bool GetHasBeenSpilt()
+    {
+        return hasBeenSpilt;
+    }
+
+    public void SetHasBeenSpilt(bool state)
+    {
+        hasBeenSpilt = state;
+    }*/
 
 
     // Count the rebound vector.

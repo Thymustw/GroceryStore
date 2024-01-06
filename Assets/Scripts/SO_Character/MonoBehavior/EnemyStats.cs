@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour
@@ -12,7 +9,7 @@ public class EnemyStats : MonoBehaviour
     public float GetMaxHealth()
     {
         if (unitData != null)
-            return unitData.maxHealth;
+            return unitData.baseMaxHealth;
         else return 0;
     }
 
@@ -45,17 +42,17 @@ public class EnemyStats : MonoBehaviour
             unitData.gunNumber = value;
     }
 
-    public float GetWalkSpeed()
+    public float GetCurrentRunSpeed()
     {
         if (unitData != null)
-            return unitData.walkSpeed;
+            return unitData.currentWalkSpeed;
         else return 0;
     }
 
-    public void SetWalkSpeed(float value)
+    public void SetCurrentRunSpeed(float value)
     {
         if (unitData != null)
-            unitData.walkSpeed = value;
+            unitData.currentWalkSpeed = value;
     }
     #endregion
     

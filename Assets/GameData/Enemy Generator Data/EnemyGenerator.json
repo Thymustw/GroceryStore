@@ -2,13 +2,48 @@
     "RoomLevel":
     [
         {
-            "Enemy":3
+			"BullyingGuy":1,
+			"WorkSheet":1,
+			"Clock":1
         },
         {
-            "Enemy":3
+            "BullyingGuy":3,
+			"Clock":3
         },
         {
-            "Enemy":3
+            "BullyingGuy":4,
+			"WorkSheet":4
+        },
+        {
+            "WorkSheet":6,
+			"Clock":4
+        },
+        {
+            "BullyingGuy":4,
+			"WorkSheet":4,
+			"Clock":4
+        },
+        {
+            "BullyingGuy":7,
+			"WorkSheet":7
+        },
+        {
+			"WorkSheet":8,
+			"Clock":8
+        },
+        {
+            "BullyingGuy":9,
+			"Clock":9
+        },
+        {
+            "BullyingGuy":7,
+			"WorkSheet":7,
+			"Clock":7
+        },
+        {
+            "BullyingGuy":10,
+			"WorkSheet":10,
+			"Clock":10
         }
     ]
 }

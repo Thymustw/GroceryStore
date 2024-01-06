@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class ItemsCollector : MonoBehaviour
 {
@@ -17,11 +13,11 @@ public class ItemsCollector : MonoBehaviour
             GameObject temp = Instantiate(item, transform);
             items.Add(temp);
         }
+        GameManager.Instance.RigisterItem(gameObject.GetComponent<ItemsCollector>());
     }
 
     void Start()
     {
-        GameManager.Instance.RigisterItem(gameObject.GetComponent<ItemsCollector>());
         GameManager.Instance.AddWaitGameObjectAndSetActiveFalse(this.gameObject);
     }
 
@@ -109,6 +105,26 @@ public class ItemsCollector : MonoBehaviour
                 valve *= item.GetComponent<ItemStats>().itemData.timesBulletSize;
         //TODO:要確認。
         valve = Mathf.Max(1, valve);
+        return valve;
+    }
+
+    public float GetTotalTimesRunSpeed()
+    {
+        float valve = 1;
+        if (items != null)
+            foreach (GameObject item in items)
+                valve *= item.GetComponent<ItemStats>().itemData.timesRunSpeed;
+        //TODO:要確認。
+        valve = Mathf.Max(1, valve);
+        return valve;
+    }
+
+    public float GetPlusHealth()
+    {
+        float valve = 0;
+        if (items != null)
+            foreach (GameObject item in items)
+                valve += item.GetComponent<ItemStats>().itemData.plusHealth;
         return valve;
     }
     #endregion

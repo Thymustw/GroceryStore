@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,21 +15,28 @@ public class GameManager : Singleton<GameManager>
 
     public List<GameObject> itemInputGameobjects = new List<GameObject>();
     public List<GameObject> itemOutputGameobjects = new List<GameObject>();
+    public List<TextAsset> dialogueInputGameobjects = new List<TextAsset>();
+    public List<TextAsset> dialogueOutputGameobjects = new List<TextAsset>();
 
 
     public event Action<float, float> UpdateHealthOnHurt;
     public event Action<int> UpdateDialogue;
 
+    private DialogueStats dialogueStats;
     private PlayerStats playerStats;
     private ItemCollectorStats itemCollectorStats;
     private ItemsCollector itemsCollector;
     private ItemGetter itemGetter;
 
     private int indexOfTheCurrentEnemyPool = 0;
-    private int indexOfTheCurrentTextAsset = 0;
     private int indexOfTheCurrentUpgrade = 0;
+    private int indexOfTheCurrentTextAssetAndItem;
 
-    bool hitToSpilt, chaseBullet, througntEnemy, enemyDeadAndShootTenCrossBullet, isGetItem;
+    private float playerPreMaxHealth;
+
+    bool enemyDeadAndShootCrossBullet, enemyDeadAndShootTenCrossBullet, isGetItem;
+
+    SpriteRenderer hand;
 
     protected override void Awake()
     {
@@ -37,16 +45,22 @@ public class GameManager : Singleton<GameManager>
         //SceneManager.activeSceneChanged += OnSceneChanged;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
         itemCollectorStats = GetComponent<ItemCollectorStats>();
+        dialogueStats = GetComponent<DialogueStats>();
 
         foreach (var item in itemCollectorStats.itemCollectorData.itemLibGameobjects)
         {
             itemInputGameobjects.Add(item);
         }
+
+        foreach (var dialogue in dialogueStats.dialogueData.dialogueFileList)
+        {
+            dialogueInputGameobjects.Add(dialogue);
+        }
+
         itemOutputGameobjects = new List<GameObject>();
-        foreach (var temp in itemInputGameobjects)
-            Debug.Log(temp.name);
-        foreach (var temp in itemOutputGameobjects)
-            Debug.Log(temp.name);
+        dialogueOutputGameobjects = new List<TextAsset>();
+
+        hand = GetComponent<SpriteRenderer>();
         // itemCollectorStats = GetComponent<ItemCollectorStats>();
         // if (itemInputGameobjects.Count == 0)
         //     itemInputGameobjects = itemCollectorStats.GetItemCollectorList();
@@ -91,16 +105,25 @@ public class GameManager : Singleton<GameManager>
         if (SceneManager.GetActiveScene().name == "ChooseScene")
             try
             {
+                hand.color = new Color(1, 1, 1, 1);
+
+                var mousePos = Input.mousePosition;
+                mousePos.z = 10;
+                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+                
+                hand.transform.position = mousePos;
                 isGetItem = false;
                 if (Input.GetMouseButtonDown(0) && MouseDetect().collider.CompareTag("AttackBox"))
                     if(MouseDetect().collider.GetComponent<SpriteRenderer>().color != Color.white)
                     {
-                        print("not change");
                         MouseDetect().collider.GetComponent<SpriteRenderer>().color = Color.white;
                         SceneManager.LoadScene("DialogueScene");
+                        indexOfTheCurrentTextAssetAndItem = UnityEngine.Random.Range(0, dialogueInputGameobjects.Count);
                     }
             }
             catch (Exception e){}
+        else
+            hand.color = new Color(1, 1, 1, 0);
         //else if (SceneManager.GetActiveScene().name == "BattleScene")
         //    StartCoroutine(PassBattleTime(20));
 
@@ -121,8 +144,10 @@ public class GameManager : Singleton<GameManager>
                 isGetItem = true;
             }
 
-
-            StartCoroutine(PassBattleTime(5));
+            if(itemInputGameobjects.Count <= 0)
+                StartCoroutine(EndingAfterTimer(2));
+            else
+                StartCoroutine(BattleAfterTimer(5));
             //itemGetter
         }
 
@@ -134,6 +159,17 @@ public class GameManager : Singleton<GameManager>
     public void RigisterPlayer(PlayerStats player)
     {
         playerStats = player;
+
+        if(playerPreMaxHealth == 0)
+            playerPreMaxHealth = playerStats.GetBaseMaxHealth();
+
+        playerStats.SetCurrentMaxHealth(MaxCurrentHealth());
+        if (playerPreMaxHealth != playerStats.GetCurrentMaxHealth())
+        {
+            float addHealth = playerStats.GetCurrentMaxHealth() - playerPreMaxHealth;
+            playerStats.SetCurrentHealth(playerStats.GetCurrentHealth() + addHealth);
+            playerPreMaxHealth = playerStats.GetCurrentMaxHealth();
+        }
     }
 
     public PlayerStats GetPlayer()
@@ -179,7 +215,7 @@ public class GameManager : Singleton<GameManager>
             gameObject?.SetActive(true);
         }*/
         objectList.Clear();
-        UpdateHealthOnHurt?.Invoke(playerStats.GetCurrentHealth(), playerStats.GetMaxHealth());
+        UpdateHealthOnHurt?.Invoke(playerStats.GetCurrentHealth(), playerStats.GetCurrentMaxHealth());
     }
 
     public void ResentItemToItemGetter()
@@ -206,11 +242,22 @@ public class GameManager : Singleton<GameManager>
             observer.EndNotify();
         }
         playerStats.gameObject.SetActive(false);
+
+        //SceneManager.LoadScene("StartScene");
         StartCoroutine(EndGame(2));
     }
     #endregion
 
-    
+    public TextAsset GetOutputTextAsset()
+    {
+        TextAsset dialogueGet = dialogueInputGameobjects[indexOfTheCurrentTextAssetAndItem];
+        Debug.Log(dialogueGet.name);
+        dialogueOutputGameobjects.Add(dialogueGet);
+
+        dialogueInputGameobjects.RemoveAt(indexOfTheCurrentTextAssetAndItem);
+
+        return dialogueGet;
+    }
     public List<GameObject> GetOutputItems()
     {
         return new List<GameObject>(itemOutputGameobjects);
@@ -219,29 +266,38 @@ public class GameManager : Singleton<GameManager>
     {
         if (itemCollectorStats != null)
         {
-            int index = UnityEngine.Random.Range(0, itemInputGameobjects.Count - 1);
-            itemOutputGameobjects.Add(itemInputGameobjects[index]);
-            foreach (var item in itemOutputGameobjects)
-                print("itemOutputGameobjects" + item.name);
-            print("==============");
-            itemInputGameobjects.RemoveAt(index);
-            foreach (var item in itemInputGameobjects)
-                print("itemInputGameobjects" + item.name);
+            //int index = UnityEngine.Random.Range(0, itemInputGameobjects.Count - 1);
+            GameObject itemGet = itemInputGameobjects[indexOfTheCurrentTextAssetAndItem];
+            Debug.Log(itemGet.name);
+
+            itemOutputGameobjects.Add(itemGet);
+            itemGetter.SetText(itemGet);
+
+            itemInputGameobjects.RemoveAt(indexOfTheCurrentTextAssetAndItem);
         }
     }
 
     // For testing. 觀察者模式代替
-    IEnumerator PassBattleTime(float seconds)
+    IEnumerator BattleAfterTimer(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         SceneManager.LoadScene("ChooseScene");
         isGetItem = false;
     }
 
-    IEnumerator EndGame(float seconds)
+    IEnumerator EndingAfterTimer(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        VideoManager.Instance.SetEnding(true);
+        SceneManager.LoadScene("VideoScene");
+        isGetItem = false;
+    }
+
+    public IEnumerator EndGame(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         Application.Quit();
+        EditorApplication.isPlaying = false;
     }
 
     #region "tool"
@@ -266,14 +322,13 @@ public class GameManager : Singleton<GameManager>
             
             player.SetCurrentHealth(Mathf.Max(0, HP -= damage));
             print(player.GetCurrentHealth());
-            UpdateHealthOnHurt?.Invoke(player.GetCurrentHealth(), player.GetMaxHealth());
+            UpdateHealthOnHurt?.Invoke(player.GetCurrentHealth(), player.GetCurrentMaxHealth());
         }
         else
         {
             float enemyHP = hurt.GetComponent<FSM>().parameter.currentHealth;
             
             hurt.GetComponent<FSM>().parameter.currentHealth = Mathf.Max(0, enemyHP -= damage);
-            print(hurt.GetComponent<FSM>().parameter.currentHealth);
         }
     }
 
@@ -289,26 +344,28 @@ public class GameManager : Singleton<GameManager>
     public float BulletSpeed() => playerStats.GetCurrentBulletSpeed() + itemsCollector.GetTotalPlusBulletSpeed();
     public float BulletDamage() => (playerStats.GetCurrentDamage() + itemsCollector.GetTotalPlusBulletDamage()) * itemsCollector.GetTotalTimesDamagePersentage();
     public float BulletSize(GameObject bullet) => bullet.transform.localScale.y * itemsCollector.GetTotalTimesBulletSize();
+    public float RunSpeed() => playerStats.GetCurrentRunSpeed() * itemsCollector.GetTotalTimesRunSpeed();
+    public float MaxCurrentHealth() => playerStats.GetBaseMaxHealth() + itemsCollector.GetPlusHealth();
 
-    public void EnableHitToSpilt(bool value = false) {hitToSpilt = value;}
+    /*public void EnableHitToSpilt(bool value = false) {hitToSpilt = value;}
     public bool GetHitToSpilt() { return hitToSpilt ;}
     public void EnableChaseBullet(bool value = false) {chaseBullet = value;}
-    public bool GetChaseBullet() { return chaseBullet ;}
-    public void EnableThrougntEnemy(bool value = false) {througntEnemy = value;}
-    public bool GetThrougntEnemy() { return througntEnemy ;}
+    public bool GetChaseBullet() { return chaseBullet ;}*/
+    public void EnableEnemyDeadAndShootCrossBullet(bool value = false) {enemyDeadAndShootCrossBullet = value;}
+    public bool GetEnemyDeadAndShootCrossBullet() { return enemyDeadAndShootCrossBullet ;}
     public void EnableEnemyDeadAndShootTenCrossBullet(bool value = false) {enemyDeadAndShootTenCrossBullet = value;}
     public bool GetEnemyDeadAndShootTenCrossBullet() { return enemyDeadAndShootTenCrossBullet ;}
     
     #endregion
 
-    public int GetIndexOfTheCurrentTextAsset()
+    /*public int GetIndexOfTheCurrentTextAsset()
     {
         return indexOfTheCurrentTextAsset;
     }
     public void SetIndexOfTheCurrentTextAsset(int value)
     {
         indexOfTheCurrentTextAsset = value;
-    }
+    }*/
 
 
     public int GetIndexOfTheCurrentUpgrade()

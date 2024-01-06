@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
@@ -7,12 +6,14 @@ using UnityEngine.SceneManagement;
 public class VideoManager : Singleton<VideoManager>
 {
     private VideoPlayer videoPlayer;
+    bool opening, ending;
 
     protected override void Awake() 
     {
         base.Awake();
         
         SceneManager.sceneLoaded += OnSceneLoaded;
+        DontDestroyOnLoad(this);
         //SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
@@ -22,16 +23,21 @@ public class VideoManager : Singleton<VideoManager>
 
         if (!videoPlayer)
             GetVideoPlayer();
-        if (scene.name == "VideoScene")
-        {
-            StartCoroutine(PlayVideo("Sample"));
-        }
+        if (scene.name == "VideoScene" && opening)
+            StartCoroutine(PlayVideo("Opening"));
+        else if (scene.name == "VideoScene" && ending)
+            StartCoroutine(PlayVideo("Ending"));
     }
 
-    // private void OnSceneUnloaded(Scene scene)
-    // {
-    //     StopAllCoroutines();
-    // }
+    public void SetOpening(bool value)
+    {
+        opening = value;
+    }
+
+    public void SetEnding(bool value)
+    {
+        ending = value;
+    }
 
 
     IEnumerator PlayVideo(string videoPath)
@@ -55,7 +61,16 @@ public class VideoManager : Singleton<VideoManager>
         videoPlayer.Stop();
         //SceneManager.LoadScene("BattleScene");
         //SceneManager.LoadScene("DialogueScene");
-        SceneManager.LoadScene("ChooseScene");
+        if(opening)
+        {
+            opening = false;
+            SceneManager.LoadScene("ChooseScene");
+        }
+        else if (ending)
+        {
+            ending = false;
+            StartCoroutine(GameManager.Instance.EndGame(1));
+        }
     }
 
     private void GetVideoPlayer()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackState : IState
@@ -21,8 +19,12 @@ public class AttackState : IState
 
     public void OnUpdate()
     {
-        GameManager.Instance.DamageCount(parameter.target.gameObject, parameter.enemyStats.GetDamage());
-        manager.TransitionState(StateType.Idle);
+        AnimatorStateInfo stateinfo = parameter.animator.GetCurrentAnimatorStateInfo(0);
+        if(stateinfo.normalizedTime >= 1f)
+        {
+            GameManager.Instance.DamageCount(parameter.target.gameObject, parameter.enemyStats.GetDamage());
+            manager.TransitionState(StateType.Idle);
+        }
     }
 
 

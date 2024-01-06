@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Item/Item Data")]
@@ -19,4 +17,7 @@ public class ItemData_SO : ScriptableObject
     [Header("Value Info")]
     public float timesDamagePersentage;
     public float plusBulletDamage;
+    [Header("People Info")]
+    public float timesRunSpeed;
+    public float plusHealth;
 }

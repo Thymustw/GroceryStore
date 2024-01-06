@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -8,11 +6,24 @@ public class PlayerStats : MonoBehaviour
     public GunData_SO gunData;
 
     #region "Read from UnitData_SO"
-    public float GetMaxHealth()
+    public float GetBaseMaxHealth()
     {
         if (unitData != null)
-            return unitData.maxHealth;
+            return unitData.baseMaxHealth;
         else return 0;
+    }
+
+    public float GetCurrentMaxHealth()
+    {
+        if (unitData != null)
+            return unitData.currentMaxHealth;
+        else return 0;
+    }
+
+    public void SetCurrentMaxHealth(float value)
+    {
+        if (unitData != null)
+            unitData.currentMaxHealth = value;
     }
 
 
@@ -44,17 +55,17 @@ public class PlayerStats : MonoBehaviour
             unitData.gunNumber = value;
     }
 
-    public float GetWalkSpeed()
+    public float GetCurrentRunSpeed()
     {
         if (unitData != null)
-            return unitData.walkSpeed;
+            return unitData.currentWalkSpeed;
         else return 0;
     }
 
-    public void SetWalkSpeed(float value)
+    public void SetCurrentRunSpeed(float value)
     {
         if (unitData != null)
-            unitData.walkSpeed = value;
+            unitData.currentWalkSpeed = value;
     }
     #endregion
 
@@ -77,6 +88,12 @@ public class PlayerStats : MonoBehaviour
         if (gunData != null)
             return gunData.currentBulletSpeed;
         else return 0;
+    }
+
+    public void SetCurrentBulletSpeed(float value)
+    {
+        if (gunData != null)
+            gunData.currentBulletSpeed = value;
     }
 
 
