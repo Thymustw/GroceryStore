@@ -169,9 +169,12 @@ public class Dialogue : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1);
-
+        
         if (changeScene)
+        {
+            AudioManager.Instance.PlayAudio(new IPlayAudioChangeScene());
             SceneManager.LoadScene("BattleScene");
+        }
         //SceneManager.LoadScene("VideoScene");
     }
 

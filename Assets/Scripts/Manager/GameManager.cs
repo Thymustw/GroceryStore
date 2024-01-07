@@ -117,6 +117,8 @@ public class GameManager : Singleton<GameManager>
                     if(MouseDetect().collider.GetComponent<SpriteRenderer>().color != Color.white)
                     {
                         MouseDetect().collider.GetComponent<SpriteRenderer>().color = Color.white;
+                        AudioManager.Instance.PlayAudio(new IPlayAudioChooseBox());
+                        StartCoroutine(Timer(0.5f));
                         SceneManager.LoadScene("DialogueScene");
                         indexOfTheCurrentTextAssetAndItem = UnityEngine.Random.Range(0, dialogueInputGameobjects.Count);
                     }
@@ -143,7 +145,7 @@ public class GameManager : Singleton<GameManager>
                 SetInItems();
                 isGetItem = true;
             }
-
+            
             if(itemInputGameobjects.Count <= 0)
                 StartCoroutine(EndingAfterTimer(2));
             else
@@ -268,7 +270,8 @@ public class GameManager : Singleton<GameManager>
         {
             //int index = UnityEngine.Random.Range(0, itemInputGameobjects.Count - 1);
             GameObject itemGet = itemInputGameobjects[indexOfTheCurrentTextAssetAndItem];
-            Debug.Log(itemGet.name);
+            AudioManager.Instance.PlayAudio(new IPlayAudioGetItem());
+            //Debug.Log(itemGet.name);
 
             itemOutputGameobjects.Add(itemGet);
             itemGetter.SetText(itemGet);
@@ -277,10 +280,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    // For testing. 觀察者模式代替
+    IEnumerator Timer(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+    }
+
     IEnumerator BattleAfterTimer(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        AudioManager.Instance.PlayAudio(new IPlayAudioChangeScene());
+        yield return new WaitForSeconds(0.2f);
         SceneManager.LoadScene("ChooseScene");
         isGetItem = false;
     }
@@ -289,6 +298,8 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(seconds);
         VideoManager.Instance.SetEnding(true);
+        AudioManager.Instance.PlayAudio(new IPlayAudioChangeScene());
+        yield return new WaitForSeconds(0.2f);
         SceneManager.LoadScene("VideoScene");
         isGetItem = false;
     }

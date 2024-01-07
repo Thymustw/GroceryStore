@@ -13,6 +13,7 @@ public class SceneStart : MonoBehaviour
 
     void ChangeScene()
     {
+        AudioManager.Instance.PlayAudio(new IPlayAudioStart());
         VideoManager.Instance.SetOpening(true);
         SceneManager.LoadScene("VideoScene");
     }

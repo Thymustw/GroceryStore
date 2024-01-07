@@ -42,6 +42,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.collider.CompareTag("Enemy"))
         {
+            AudioManager.Instance.PlayAudio(new IPlayAudioEnemyHit());
             HitColl(other.contacts[0].point);
             //TODO:Change to correct func.
             float damage = GameManager.Instance.BulletDamage();

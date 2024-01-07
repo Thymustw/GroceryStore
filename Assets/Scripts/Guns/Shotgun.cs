@@ -66,6 +66,7 @@ public class Shotgun : Gun
         {
             // Play anime.
             animator.SetTrigger("Shoot");
+            AudioManager.Instance.PlayAudio(new IPlayAudioShootSound());
 
             ShotGunShoot();
             yield return new WaitForSeconds(preBulletInterval);

@@ -63,6 +63,7 @@ public class VideoManager : Singleton<VideoManager>
         //SceneManager.LoadScene("DialogueScene");
         if(opening)
         {
+            AudioManager.Instance.PlayAudio(new IPlayAudioChangeScene());
             opening = false;
             SceneManager.LoadScene("ChooseScene");
         }
