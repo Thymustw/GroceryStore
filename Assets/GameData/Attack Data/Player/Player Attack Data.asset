@@ -19,10 +19,10 @@ MonoBehaviour:
   baseNumPreShootBullet: 1
   baseIntervalPreShoot: 1
   baseIntervalPreBullet: 0.5
-  currentDamage: 999
-  currentBulletSpeed: 3
+  currentDamage: 1000.1999
+  currentBulletSpeed: 4.5
   currentBulletCount: 1
-  currentReboundTime: 1
+  currentReboundTime: 2
   currentNumPreShootBullet: 1
-  currentIntervalPreShoot: 1
+  currentIntervalPreShoot: 0.44000006
   currentIntervalPreBullet: 0.5
