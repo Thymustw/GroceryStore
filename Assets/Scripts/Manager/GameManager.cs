@@ -274,7 +274,7 @@ public class GameManager : Singleton<GameManager>
             //Debug.Log(itemGet.name);
 
             itemOutputGameobjects.Add(itemGet);
-            itemGetter.SetText(itemGet);
+            itemGetter.SetItemThing(itemGet);
 
             itemInputGameobjects.RemoveAt(indexOfTheCurrentTextAssetAndItem);
         }
