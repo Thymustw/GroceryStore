@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 547924447199425090}
   - component: {fileID: 8951195436611806069}
   m_Layer: 5
-  m_Name: Dumping
+  m_Name: Dumpling
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
