@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 // Create a singleton for everybody.
@@ -24,7 +21,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 
     protected virtual void OnDestroy()
     {
-        if (instance == this)
+        if (instance == (T)this)
             instance = null;
     }
 }

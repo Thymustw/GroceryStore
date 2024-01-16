@@ -1,13 +1,20 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ObjectPool
+public class ObjectPool : Singleton<ObjectPool>
 {
-    // Singleton for normal class.
-    private static ObjectPool instance;
+    // Create a dic to save <object, a mount of object>.
+    private Dictionary<string, Queue<GameObject>> objectPool = new Dictionary<string, Queue<GameObject>>();
+    // ObjectPool
+    private GameObject pool;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        pool = this.gameObject;
+        //SceneManager.activeSceneChanged += OnSceneChanged;
+    }
+    /*private static ObjectPool instance;
     public static ObjectPool Instance
     {
         get
@@ -18,12 +25,7 @@ public class ObjectPool
             }
             return instance;
         }
-    }
-
-    // Create a dic to save <object, a mount of object>.
-    private Dictionary<string, Queue<GameObject>> objectPool = new Dictionary<string, Queue<GameObject>>();
-    // ObjectPool
-    private GameObject pool;
+    }*/
 
 
     // Regedit the object.
@@ -31,7 +33,8 @@ public class ObjectPool
     {
         // Check the prefab is exist or not, BEFORE take (dequene) it.
         GameObject _object;
-        if (!objectPool.ContainsKey(prefab.name) || objectPool[prefab.name].Count == 0)
+        
+        if (!objectPool.ContainsKey(prefab.name) || objectPool[prefab.name].Count == 0 || objectPool[prefab.name].Peek().activeSelf)
         {
             _object = GameObject.Instantiate(prefab);
             PushObject(_object);
@@ -69,5 +72,24 @@ public class ObjectPool
         // Save in name quene.
         objectPool[_name].Enqueue(prefab);
         prefab.SetActive(false);
+    }
+
+    /*void OnSceneChanged(Scene scene, Scene nextScene)
+    {
+        print(scene.name);
+        if(scene.name == "BattleScene")
+        {
+            print("hi");
+            GetTheChild();
+        }
+    }*/
+
+    public void StopChildren()
+    {
+        foreach(Transform child in pool.transform.GetComponentsInChildren<Transform>())
+        {
+            if(child.gameObject.name.Contains("(Clone)"))
+                child.gameObject.SetActive(false);
+        }
     }
 }

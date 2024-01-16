@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -17,7 +15,6 @@ public class Gun : MonoBehaviour
 
     //      __Timer
     protected float timer;
-    public float interval;
 
     //      __Mouse
     protected Vector2 mousePos;
@@ -84,7 +81,7 @@ public class Gun : MonoBehaviour
             if(timer == 0)
             {
                 Fire();
-                timer = interval;
+                timer = GameManager.Instance.IntervalPreShoot();
             }
         }
     }

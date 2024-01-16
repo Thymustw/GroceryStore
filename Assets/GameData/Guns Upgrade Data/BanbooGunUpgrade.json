@@ -1,0 +1,42 @@
+{
+    "Upgrade": [
+        {
+            "First": [ {"IsBanBooGun": true} ]
+        },
+        {
+            "First": [ {"AddATK":0.3},{"MinusRate":0.03} ]
+        },
+        {
+            "First": [ {"AddBullet": 3} ],
+            "Second": [ {"AddATK": 0.3}, {"AddMaxHealth": 5}, {"AddBulletSpeed": 1.5}, {"MinusRate": 0.5} ],
+            "Third": [ {"TimesATKPersentage": 1.3}, {"TimesRunSpeed": 1.5}, {"AddBullet": 1}, {"AddRebound": 1} ]
+        },
+        {
+            "First": [ {"AddATK":0.1},{"MinusRate":0.01} ]
+        },
+        {
+            "First": [ {"AddATK":0.1},{"MinusRate":0.01} ]
+        },
+        {
+            "First": [ {"AddRebound": 2} ],
+            "Second": [ {"EnemyDeadAndShootCrossBullet": true} ],
+            "Third": [ {"EnemyDeadAndShootTenCrossBullet": true} ]
+        },
+        {
+            "First": [ {"AddATK":0.3} ]
+        },
+        {
+            "First": [ {"AddRebound": 1} ],
+            "Second": [ {"AddBullet": 1} ],
+            "Third": [ {"AddPreShootNum": 1} ]
+        },
+        {
+            "First": [ {"AddATK":0.1},{"MinusRate":0.01} ]
+        },
+        {
+            "First": [ {"AddRebound": 1} ],
+            "Second": [ {"AddBullet": 1} ],
+            "Third": [ {"AddPreShootNum": 1} ]
+        }
+    ]
+}
