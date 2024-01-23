@@ -42,6 +42,7 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         DontDestroyOnLoad(this);
+        Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
         //SceneManager.activeSceneChanged += OnSceneChanged;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
         itemCollectorStats = GetComponent<ItemCollectorStats>();
@@ -101,6 +102,8 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {   
+        if(Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
         // Scenechanger.
         if (SceneManager.GetActiveScene().name == "ChooseScene")
             try
@@ -308,7 +311,7 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(seconds);
         Application.Quit();
-        EditorApplication.isPlaying = false;
+        //EditorApplication.isPlaying = false;
     }
 
     #region "tool"

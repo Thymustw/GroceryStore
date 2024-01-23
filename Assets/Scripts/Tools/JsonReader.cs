@@ -130,7 +130,8 @@ public class JsonReader : MonoBehaviour
 
     public List<Valve> GetCurrentUpgradeOfFirst(int index)
     {
-        string jsonData = File.ReadAllText(Application.dataPath + "/GameData/Guns Upgrade Data/BanbooGunUpgrade.json");
+        TextAsset file = Resources.Load("GameData/Guns Upgrade Data/BanbooGunUpgrade") as TextAsset;
+        string jsonData = file.text;
         Root root = JsonUtility.FromJson<Root>(jsonData);
 
         if (root.Upgrade[index].First != null)
@@ -140,7 +141,8 @@ public class JsonReader : MonoBehaviour
 
     public List<Valve> GetCurrentUpgradeOfSecond(int index)
     {
-        string jsonData = File.ReadAllText(Application.dataPath + "/GameData/Guns Upgrade Data/BanbooGunUpgrade.json");
+        TextAsset file = Resources.Load("GameData/Guns Upgrade Data/BanbooGunUpgrade") as TextAsset;
+        string jsonData = file.text;
         Root root = JsonUtility.FromJson<Root>(jsonData);
 
         if (root.Upgrade[index].Second != null)
@@ -150,7 +152,8 @@ public class JsonReader : MonoBehaviour
 
     public List<Valve> GetCurrentUpgradeOfThird(int index)
     {
-        string jsonData = File.ReadAllText(Application.dataPath + "/GameData/Guns Upgrade Data/BanbooGunUpgrade.json");
+        TextAsset file = Resources.Load("GameData/Guns Upgrade Data/BanbooGunUpgrade") as TextAsset;
+        string jsonData = file.text;
         Root root = JsonUtility.FromJson<Root>(jsonData);
 
         if (root.Upgrade[index].Third != null)
@@ -161,7 +164,8 @@ public class JsonReader : MonoBehaviour
 
     public void GetCurrentEnemyPool(int index, Transform parent)
     {
-        string jsonData = File.ReadAllText(Application.dataPath + "/GameData/Enemy Generator Data/EnemyGenerator.json");
+        TextAsset file = Resources.Load("GameData/Enemy Generator Data/EnemyGenerator") as TextAsset;
+        string jsonData = file.text;
         EnemyPoolRoot enemyPoolRoot = JsonUtility.FromJson<EnemyPoolRoot>(jsonData);
 
         if (enemyPoolRoot.RoomLevel[index].BullyingGuy > 0)
